@@ -67,9 +67,8 @@ module.exports = production => ({
 ## server set-up
 your server should use the following as an entry point, just copy and paste:
 ```javascript
-import http from 'http'
-import app from './server.js' // YOUR SERVER
-
+const http = require('http')
+let app = require('./server.js').default // YOUR APP
 const server = http.createServer((req, res) => app(req, res))
 const PORT = process.env.PORT || 3000
 
@@ -118,13 +117,16 @@ if (module.hot) module.hot.accept()
 sure to link to that during dev. For production, point it to your configured
 public path.
 
-## run your dev server
-you still need to run your server during dev:
-```bash
-node dist/server.js # or wherever
-```
+## babel
+include a `.babelrc` in your root and install presets/plugins to your project
 
 ## css
 if you opt to use the built in postcss compilation, you'll need to add a
   `postcss.config.js` to the root of your project, and import your stylesheet
   into your client bundle, as per usual
+
+## run your dev server
+you still need to run your server during dev:
+```bash
+node dist/server.js # or wherever
+```
