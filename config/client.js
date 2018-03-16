@@ -5,7 +5,7 @@ const base = require('./base.js')
 const config = require('../lib/userConfig.js')
 
 module.exports = function server (production) {
-  const { css, client } = config
+  const { css, client, publicDir } = config
 
   return {
     mode: production ? 'production' : 'development',
@@ -18,9 +18,8 @@ module.exports = function server (production) {
       !production && require.resolve('webpack/hot/dev-server')
     ].filter(Boolean)),
     output: {
-      path: path.resolve(process.cwd(), client.output.path),
+      path: path.resolve(process.cwd(), publicDir),
       filename: client.output.filename,
-      // publicPath: production ? '/' : 'http://localhost:8080'
     },
     module: {
       rules: base.rules.concat(

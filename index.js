@@ -2,7 +2,7 @@
 'use strict'
 
 const pkg = require('./package.json')
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const webpack = require('webpack')
@@ -21,17 +21,25 @@ const clientCompiler = webpack(clientConfig)
 const serverCompiler = webpack(serverConfig)
 
 let loader = null
+let clientComplete = false
+let serverComplete = false
 
 if (args.p) {
   console.log(chalk.green(`unibundle`), chalk.gray('production'))
+
   loader = loading.start()
-  clientCompiler.run((err, stats) => done('client', err, stats))
-  serverCompiler.run((err, stats) => done('server', err, stats))
+
+  fs.emptyDir(path.resolve(process.cwd(), userConfig.buildDir), () => {
+    clientCompiler.run((err, stats) => done('client', err, stats, true)),
+    serverCompiler.run((err, stats) => done('server', err, stats, true))
+  })
 } else {
   console.log(chalk.green(`unibundle`), chalk.gray('development'))
   clientCompiler.hooks.done.tap({ name: 'unibundle stats' }, stats => {
-    done('client bundle', null, stats)
+    done('client', null, stats)
   })
+  fs.remove(path.resolve(userConfig.publicDir, userConfig.css.output.filename))
+  fs.remove(path.resolve(userConfig.publicDir, userConfig.client.output.filename))
   const server = new devServer(clientCompiler, {
     // hot: true, // breaks, never gets update
     publicPath: '/',
@@ -45,7 +53,7 @@ if (args.p) {
   server.listen(8080, 'localhost', e => {
     console.log(
       chalk.green(`unibundle`),
-      chalk.gray('client path'),
+      chalk.gray('client bundle served at'),
       `localhost:8080/${userConfig.client.output.filename}`
     )
   })
@@ -57,11 +65,11 @@ if (args.p) {
   })
   serverCompiler.watch(
     { quiet: true },
-    (err, stats) => done('server bundle', err, stats)
+    (err, stats) => done('server', err, stats)
   )
 }
 
-function done (which, err, stats) {
+function done (which, err, stats, production) {
   if (err) {
     console.error(err.stack || err);
     if (err.details) {
@@ -100,7 +108,7 @@ function done (which, err, stats) {
 
   if (args.p && which === 'client') {
     const file = fs.readFileSync(
-      path.resolve(userConfig.client.output.path, userConfig.client.output.filename)
+      path.resolve(userConfig.publicDir, userConfig.client.output.filename)
     ).toString('utf8')
     size = (gzip.sync(file) / 1024).toFixed(2) + ' kb gzipped'
   } else if (args.p) {
@@ -112,4 +120,22 @@ function done (which, err, stats) {
     chalk.gray(which),
     size
   )
+
+  if (which === 'client') {
+    clientComplete = true
+  } else if (which === 'server') {
+    serverComplete = true
+  }
+
+  if (production && clientComplete && serverComplete) copy()
+}
+
+function copy () {
+  fs.copy(userConfig.publicDir, path.join(userConfig.buildDir, userConfig.publicDir), () => {
+    console.log(
+      chalk.green(`unibundle`),
+      chalk.gray('copy'),
+      `copied compiled files to /${userConfig.buildDir}`
+    )
+  })
 }

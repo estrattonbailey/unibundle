@@ -5,7 +5,7 @@ const base = require('./base.js')
 const config = require('../lib/userConfig.js')
 
 module.exports = function server (production) {
-  const { server } = config
+  const { server, buildDir } = config
 
   return {
     mode: production ? 'production' : 'development',
@@ -23,7 +23,7 @@ module.exports = function server (production) {
       !production && 'webpack/hot/poll?300'
     ]).filter(Boolean),
     output: {
-      path: path.resolve(process.cwd(), server.output.path),
+      path: path.resolve(process.cwd(), buildDir),
       filename: server.output.filename
     },
     module: {
