@@ -1,5 +1,5 @@
 {
-  "name": "fabjs",
+  "name": "unibundle",
   "version": "0.0.1",
   "description": "Batteries excluded universal application bundler",
   "main": "index.js",
@@ -7,18 +7,18 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "fab": "./index.js"
+    "unibundle": "./index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/estrattonbailey/fab.git"
+    "url": "git+ssh://git@github.com/estrattonbailey/unibundle.git"
   },
   "author": "estrattonbailey",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/estrattonbailey/fab/issues"
+    "url": "https://github.com/estrattonbailey/unibundle/issues"
   },
-  "homepage": "https://github.com/estrattonbailey/fab#readme",
+  "homepage": "https://github.com/estrattonbailey/unibundle#readme",
   "dependencies": {
     "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.3",

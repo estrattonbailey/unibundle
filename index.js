@@ -23,13 +23,13 @@ const serverCompiler = webpack(serverConfig)
 let loader = null
 
 if (args.p) {
-  console.log(chalk.green(`fab`), chalk.gray('production'))
+  console.log(chalk.green(`unibundle`), chalk.gray('production'))
   loader = loading.start()
   clientCompiler.run((err, stats) => done('client', err, stats))
   serverCompiler.run((err, stats) => done('server', err, stats))
 } else {
-  console.log(chalk.green(`fab`), chalk.gray('development'))
-  clientCompiler.hooks.done.tap({ name: 'fab stats' }, stats => {
+  console.log(chalk.green(`unibundle`), chalk.gray('development'))
+  clientCompiler.hooks.done.tap({ name: 'unibundle stats' }, stats => {
     done('client bundle', null, stats)
   })
   const server = new devServer(clientCompiler, {
@@ -44,7 +44,7 @@ if (args.p) {
   })
   server.listen(8080, 'localhost', e => {
     console.log(
-      chalk.green(`fab`),
+      chalk.green(`unibundle`),
       chalk.gray('client path'),
       `localhost:8080/${userConfig.client.output.filename}`
     )
@@ -108,7 +108,7 @@ function done (which, err, stats) {
   }
 
   console.log(
-    chalk.green(`fab`),
+    chalk.green(`unibundle`),
     chalk.gray(which),
     size
   )
