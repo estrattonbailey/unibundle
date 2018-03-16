@@ -27,7 +27,7 @@ unibundle
 
 ## production
 ```
-unibundle -p
+unibundle build
 ```
 - compile + minify server & client bundles
 - compile + minify css, if provided
@@ -35,17 +35,17 @@ unibundle -p
 ## config
 ```javascript
 module.exports = production => ({
+  buildDir: 'build',
+  publicDir: 'public',
   css: {
     output: {
-      filename: 'style.css',
-      path: 'public'
+      filename: 'style.css'
     }
   },
   client: {
     entry: 'app/index.js',
     output: {
-      path: 'public',
-      filename: 'index.js',
+      filename: 'index.js'
     },
     rules: [],
     alias: {},
@@ -54,8 +54,7 @@ module.exports = production => ({
   server: {
     entry: 'server/index.js',
     output: {
-      path: 'dist',
-      filename: 'server.js',
+      filename: 'server.js'
     },
     rules: [],
     alias: {},

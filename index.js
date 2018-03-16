@@ -12,11 +12,11 @@ const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages')
 const gzip = require('gzip-size')
 const loading = require('loading-indicator')
 
-const args = require('minimist')(process.argv.slice(2))
+const { _: args } = require('minimist')(process.argv.slice(2))
 const userConfig = require('./lib/userConfig.js')
 
-const clientConfig = require('./config/client.js')(args.p)
-const serverConfig = require('./config/server.js')(args.p)
+const clientConfig = require('./config/client.js')(args[0])
+const serverConfig = require('./config/server.js')(args[0])
 const clientCompiler = webpack(clientConfig)
 const serverCompiler = webpack(serverConfig)
 
@@ -24,7 +24,7 @@ let loader = null
 let clientComplete = false
 let serverComplete = false
 
-if (args.p) {
+if (args[0]) {
   console.log(chalk.green(`unibundle`), chalk.gray('production'))
 
   loader = loading.start()
@@ -35,11 +35,14 @@ if (args.p) {
   })
 } else {
   console.log(chalk.green(`unibundle`), chalk.gray('development'))
+
   clientCompiler.hooks.done.tap({ name: 'unibundle stats' }, stats => {
     done('client', null, stats)
   })
+
   fs.remove(path.resolve(userConfig.publicDir, userConfig.css.output.filename))
   fs.remove(path.resolve(userConfig.publicDir, userConfig.client.output.filename))
+
   const server = new devServer(clientCompiler, {
     // hot: true, // breaks, never gets update
     publicPath: '/',
@@ -50,6 +53,7 @@ if (args.p) {
     clientLogLevel: 'none',
     quiet: true
   })
+
   server.listen(8080, 'localhost', e => {
     console.log(
       chalk.green(`unibundle`),
@@ -57,12 +61,14 @@ if (args.p) {
       `localhost:8080/${userConfig.client.output.filename}`
     )
   })
+
   ;['SIGINT', 'SIGTERM'].forEach(function(sig) {
     process.on(sig, function() {
       server.close()
       process.exit()
     })
   })
+
   serverCompiler.watch(
     { quiet: true },
     (err, stats) => done('server', err, stats)
@@ -106,12 +112,12 @@ function done (which, err, stats, production) {
 
   let size = (msgs.assets[0].size / 1024).toFixed(2) + ' kb'
 
-  if (args.p && which === 'client') {
+  if (production && which === 'client') {
     const file = fs.readFileSync(
       path.resolve(userConfig.publicDir, userConfig.client.output.filename)
     ).toString('utf8')
     size = (gzip.sync(file) / 1024).toFixed(2) + ' kb gzipped'
-  } else if (args.p) {
+  } else if (production) {
     size += ' minified'
   }
 
