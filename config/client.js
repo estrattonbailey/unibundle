@@ -20,8 +20,8 @@ module.exports = function server (production) {
         require('postcss-cssnext'),
         require('postcss-calc'),
         require('postcss-discard-comments'),
-        production ? require('cssnano') : ''
-      ]
+        production && require('cssnano')
+      ].filter(Boolean)
     }
   }
 

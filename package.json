@@ -43,6 +43,7 @@
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.1.1",
     "postcss-nested": "^3.0.0",
+    "react-dev-utils": "^5.0.0",
     "standard-loader": "^6.0.1",
     "style-loader": "^0.20.2",
     "webpack": "^4.0.1",
