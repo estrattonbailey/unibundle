@@ -17,7 +17,9 @@ module.exports = function server (production) {
       plugins: [
         require('postcss-import'),
         require('postcss-nested'),
-        require('postcss-cssnext'),
+        require('postcss-cssnext')({
+          warnForDuplicates: false
+        }),
         require('postcss-calc'),
         require('postcss-discard-comments'),
         production && require('cssnano')
