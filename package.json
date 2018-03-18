@@ -1,6 +1,6 @@
 {
   "name": "unibundle",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "simple universal application bundler",
   "main": "index.js",
   "scripts": {
