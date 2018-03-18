@@ -1,22 +1,40 @@
+const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
+
+const userBabelConfig = fs.existsSync(path.resolve(process.cwd(), '.babelrc'))
 
 module.exports = {
   rules: [
     {
       enforce: 'pre',
       test: /\.js?$/,
-      loader: 'standard-loader',
+      loader: require.resolve('standard-loader'),
       exclude: /node_modules/,
       options: {
         parser: 'babel-eslint'
       }
     },
-    {
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loaders: ['babel-loader']
-    }
+    Object.assign(
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: require.resolve('babel-loader')
+      },
+      userBabelConfig ? {} : {
+        options: {
+          babelrc: false,
+          plugins: [
+            require.resolve('@babel/plugin-syntax-object-rest-spread'),
+            require.resolve('@babel/plugin-proposal-class-properties')
+          ],
+          presets: [
+            require.resolve('@babel/preset-env'),
+            require.resolve('@babel/preset-react')
+          ]
+        }
+      }
+    )
   ],
   alias: {},
   plugins: [
