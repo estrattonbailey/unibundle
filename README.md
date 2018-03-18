@@ -1,6 +1,8 @@
 # unibundle
 simple universal application bundler
 
+<img src='https://raw.githubusercontent.com/estrattonbailey/unibundle/master/unibundle.gif' style='max-width: 600px; margin: 1em 0;' />
+
 ## features
 1. hmr server & client bundles
 2. live-reload browser
