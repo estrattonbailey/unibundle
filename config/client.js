@@ -48,14 +48,14 @@ module.exports = function server (production) {
             test: /\.css$/,
             exclude: /node_modules/,
             use: production ? ExtractTextPlugin.extract({
-                fallback: 'style-loader',
+                fallback: require.resolve('style-loader'),
                 use: [
-                  'css-loader',
+                  require.resolve('css-loader'),
                   postcssLoader
                 ]
             }) : [
-              'style-loader',
-              'css-loader',
+              require.resolve('style-loader'),
+              require.resolve('css-loader'),
               postcssLoader
             ]
           }
