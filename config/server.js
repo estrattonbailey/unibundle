@@ -1,10 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
 const externals = require('webpack-node-externals')
-const base = require('./base.js')
 const config = require('../lib/userConfig.js')
 
 module.exports = function server (production) {
+  const base = require('./base.js')(production, true)
   const { server, buildDir } = config
 
   return {

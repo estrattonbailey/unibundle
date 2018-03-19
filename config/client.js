@@ -2,12 +2,12 @@ const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const base = require('./base.js')
 const config = require('../lib/userConfig.js')
 
 const userPostcssConfig = fs.existsSync(path.resolve(process.cwd(), 'postcss.config.js'))
 
-module.exports = function server (production) {
+module.exports = function client (production) {
+  const base = require('./base.js')(production, false)
   const { css, client, publicDir } = config
 
   const postcssLoader = userPostcssConfig ? 'postcss-loader' : {

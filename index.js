@@ -107,6 +107,10 @@ function done (which, err, stats, production) {
 
   loading.stop(loader)
 
+  if (msgs.errors.length) {
+    console.log('broken')
+  }
+
   if (msgs.errors.length || msgs.warnings.length) return
 
   let size = (msgs.assets[0].size / 1024).toFixed(2) + ' kb'
