@@ -131,3 +131,11 @@ you still need to run your server during dev:
 ```bash
 node dist/server.js # or wherever
 ```
+
+# prior work
+- [jaredpalmer/razzle](https://github.com/jaredpalmer/razzle)
+- [humblespark/sambell](https://github.com/humblespark/sambell)
+- [nytimes/kyt](https://github.com/nytimes/kyt)
+
+## License
+MIT License © [Eric Bailey](https://estrattonbailey.com)
