@@ -39,7 +39,7 @@ if (args[0]) {
     done('client', null, stats)
   })
 
-  fs.remove(path.resolve(userConfig.publicDir, userConfig.css.output.filename))
+  userConfig.css && fs.remove(path.resolve(userConfig.publicDir, userConfig.css.output.filename))
   fs.remove(path.resolve(userConfig.publicDir, userConfig.client.output.filename))
 
   const server = new devServer(clientCompiler, {
