@@ -26,6 +26,7 @@ module.exports = function base (production, server) {
           options: {
             babelrc: false,
             plugins: [
+              require.resolve('babel-plugin-lodash'),
               require.resolve('@babel/plugin-syntax-object-rest-spread'),
               require.resolve('@babel/plugin-proposal-class-properties')
             ],

@@ -30,7 +30,8 @@ module.exports = function client (production) {
   return {
     mode: production ? 'production' : 'development',
     target: 'web',
-    devtool: 'cheap-module-source-map',
+    performance: { hints: false },
+    devtool: 'source-map',
     entry: [].concat(client.entry).map(e => {
       return path.resolve(process.cwd(), e)
     }).concat([

@@ -29,7 +29,7 @@ if (args[0]) {
   loader = loading.start()
 
   fs.emptyDir(path.resolve(process.cwd(), userConfig.buildDir), () => {
-    clientCompiler.run((err, stats) => done('client', err, stats, true)),
+    clientCompiler.run((err, stats) => done('client', err, stats, true))
     serverCompiler.run((err, stats) => done('server', err, stats, true))
   })
 } else {
