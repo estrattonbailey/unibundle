@@ -37,6 +37,7 @@ unibundle build
 ## config
 ```javascript
 module.exports = production => ({
+  lint: true, // default
   buildDir: 'build',
   publicDir: 'public',
   css: {

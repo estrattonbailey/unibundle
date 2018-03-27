@@ -7,7 +7,7 @@ const config = require('../lib/userConfig.js')
 const userPostcssConfig = fs.existsSync(path.resolve(process.cwd(), 'postcss.config.js'))
 
 module.exports = function client (production) {
-  const base = require('./base.js')(production, false)
+  const base = require('./base.js')(production, false, config)
   const { css, client, publicDir } = config
 
   const postcssLoader = userPostcssConfig ? 'postcss-loader' : {

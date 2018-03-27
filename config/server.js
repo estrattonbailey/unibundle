@@ -4,12 +4,13 @@ const externals = require('webpack-node-externals')
 const config = require('../lib/userConfig.js')
 
 module.exports = function server (production) {
-  const base = require('./base.js')(production, true)
+  const base = require('./base.js')(production, true, config)
   const { server, buildDir } = config
 
   return {
     mode: production ? 'production' : 'development',
     target: 'node',
+    performance: { hints: false },
     devtool: 'cheap-source-map',
     externals: externals({
       whitelist: [

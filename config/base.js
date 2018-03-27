@@ -4,10 +4,10 @@ const webpack = require('webpack')
 
 const userBabelConfig = fs.existsSync(path.resolve(process.cwd(), '.babelrc'))
 
-module.exports = function base (production, server) {
+module.exports = function base (production, server, userConfig) {
   return {
     rules: [
-      {
+      userConfig.lint !== false && {
         enforce: 'pre',
         test: /\.js?$/,
         loader: require.resolve('standard-loader'),
@@ -41,7 +41,7 @@ module.exports = function base (production, server) {
           }
         }
       )
-    ],
+    ].filter(Boolean),
     alias: {},
     plugins: [
       new webpack.optimize.OccurrenceOrderPlugin(),
