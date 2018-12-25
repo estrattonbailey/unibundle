@@ -11,7 +11,7 @@ module.exports = function server (production) {
     mode: production ? 'production' : 'development',
     target: 'node',
     performance: { hints: false },
-    devtool: 'cheap-source-map',
+    devtool: 'source-map',
     externals: externals({
       whitelist: [
         !production && 'webpack/hot/poll?300'

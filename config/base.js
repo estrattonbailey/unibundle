@@ -35,7 +35,11 @@ module.exports = function base (production, server, userConfig) {
                 targets: {
                   node: 'current'
                 }
-              } : {}],
+              } : {
+                targets: {
+                  ie: '11'
+                }
+              }],
               require.resolve('@babel/preset-react')
             ]
           }
